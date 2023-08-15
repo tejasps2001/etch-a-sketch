@@ -1,18 +1,3 @@
-const sketchGrid = document.querySelector('.grid');
-
-// slider input for grid size.
-const gridSizeInput = document.querySelector('#grid-size');
-
-// Create default grid.
-let gridSize = 16;
-createGrid(gridSize);
-
-gridSizeInput.addEventListener('input', (e) => {
-    deleteOldGrid();
-    gridSize = e.target.value;
-    createGrid(gridSize);
-});
-
 function deleteOldGrid() {
     while(sketchGrid.firstChild) {
         sketchGrid.removeChild(sketchGrid.firstChild);
@@ -36,5 +21,25 @@ function createGrid() {
     hovered.forEach((cell) => cell.addEventListener('mouseenter', () => cell.classList.add('hovered')));
 }
 
+const sketchGrid = document.querySelector('.grid');
+
+// Create default grid and link it to reset button.
+let gridSize = 16;
+createGrid(gridSize);
+
+const resetGridSize = document.querySelector('#reset-grid');
+resetGridSize.addEventListener('click', () => {
+    deleteOldGrid();
+    gridSize = 16;
+    createGrid(gridSize);
+});
+
+// slider input for grid size.
+const gridSizeInput = document.querySelector('#grid-size');
+gridSizeInput.addEventListener('input', (e) => {
+    deleteOldGrid();
+    gridSize = e.target.value;
+    createGrid(gridSize);
+});
 
 // hovered.forEach((cell) => cell.addEventListener('mouseleave', () => cell.classList.remove('hovered')));
