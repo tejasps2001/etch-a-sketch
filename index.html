@@ -2,17 +2,35 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>🎨 Etch-a-Sketch</title>
+        <title>Etch-a-Sketch</title>
         <link rel="stylesheet" href="./style.css">
+        <link rel="icon" href="https://fav.farm/🎨">
         <script src="./script.js" defer></script>
     </head>
     <body>
-        <div class="sketching-grid">
+        <div class="main">
+            <div class="controls">
+                <h1 id="title">Etch-a-sketch</h1>
+                <div class="options">
+                    <div class="color-picker">
+                        <label for="custom">Color: </label>
+                        <input type="color" id="custom" name="color" value="#000000" />
+                    </div>
+                    <button class="toggle-lines">Grid Lines: Off</button>
+                    <button class="rainbow">Rainbow</button>
+                    <button class="eraser">Eraser</button>
+                    <div class="size-control">
+                        <div class="size-info">
+                            <label for="grid-size">Grid Size</label>
+                            <label class="grid-display"></label>
+                        </div>
+                        <input type="range" id="grid-size" name="grid-size" 
+                        min="1" max="64" list="markers" value="16"/>
+                    </div>
+                </div>
+            </div>
             <div class="grid"></div>
         </div>
-        <input type="range" id="grid-size" name="grid-size" 
-        min="10" max="100" list="markers" value="50"/>
-        <label for="grid-size">Grid Size</label>
-        <button id="reset-grid">Reset</button>
+        <p>Copyright © 2023 <a href="https://www.github.com/tejasps2001">tejasps2001</a></p>
     </body>
 </html>
