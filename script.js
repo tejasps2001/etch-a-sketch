@@ -53,6 +53,18 @@ function getRandomColor() {
     return colorNumber.toString(16);
 }
 
+function darken(lightColor) {
+    temp = lightColor.split(',');
+    let [r, g, b] = [temp[0].split('(')[1].trim(), temp[1].trim(), temp[2].split(')')[0].trim()];
+    r -= 25;
+    g -= 25;
+    b -= 25;
+    if (r < 0) r = 0;
+    if (g < 0) g = 0;
+    if (b < 0) b = 0;
+    return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+}
+
 const ALL_SUPPORTED_COLORS = 256 * 256 * 256; // 16,777,216 colors supported throught 24-bit colors 
 
 let cells;
@@ -79,6 +91,19 @@ const rainbowbtn = document.querySelector('.rainbow');
 rainbowbtn.addEventListener('click', (e) => {
     // Trigger color changes of each cell to random.
     cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = '#' + getRandomColor()));
+});
+
+// Darken mode
+let darkenBtn = document.querySelector('.darken');
+darkenBtn.addEventListener('click', () => {
+    cells.forEach((cell) => {
+        cell.addEventListener('mouseenter', (e) => {
+
+            // Prevent custom color function from messing up the darkening by preventing events from propagating.
+            e.stopImmediatePropagation();
+            cell.style.backgroundColor = darken(cell.style.backgroundColor);
+        }, true);
+    });
 });
 
 // Eraser mode
