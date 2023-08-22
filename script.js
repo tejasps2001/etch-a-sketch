@@ -22,6 +22,8 @@ function createGrid() {
         sketchGrid.appendChild(divRow);
     }
     cells = document.querySelectorAll('.cell');
+
+    // customColor remembers the previous color setting
     cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = customColor));
 }
 
@@ -78,6 +80,8 @@ createGrid();
 // Enable custom color functionality 
 const customBtn = document.querySelector('input[type="color"');
 customBtn.addEventListener('change', (e) => {
+
+    // store incase of grid size change.
     customColor = e.target.value;
     cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = e.target.value));
 });
