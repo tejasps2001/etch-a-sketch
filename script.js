@@ -21,8 +21,8 @@ function createGrid() {
         }
         sketchGrid.appendChild(divRow);
     }
-    hovered = document.querySelectorAll('.cell');
-    hovered.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = customColor));
+    cells = document.querySelectorAll('.cell');
+    cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = customColor));
 }
 
 function setUpCell(dimensions, row, cell) {
@@ -39,12 +39,12 @@ function toggleLines(event) {
     if (event.target.innerText == "Grid Lines: On") {
         event.target.innerText = "Grid Lines: Off";
         gridLines = false;
-        hovered.forEach((cell) => cell.classList.remove('lines'));
+        cells.forEach((cell) => cell.classList.remove('lines'));
     }
     else {
         event.target.innerText = "Grid Lines: On";
         gridLines = true;
-        hovered.forEach((cell) => cell.classList.add('lines'));
+        cells.forEach((cell) => cell.classList.add('lines'));
     }
 }
 
@@ -55,7 +55,7 @@ function getRandomColor() {
 
 const ALL_SUPPORTED_COLORS = 256 * 256 * 256; // 16,777,216 colors supported throught 24-bit colors 
 
-let hovered;
+let cells;
 let gridLines = false;
 let gridSize = 16;
 let customColor = '#000000';
@@ -66,7 +66,7 @@ createGrid();
 // Enable custom color functionality 
 const customBtn = document.querySelector('input[type="color"');
 customBtn.addEventListener('change', (e) => {
-    hovered.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = e.target.value));
+    cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = e.target.value));
 });
 
 // Grid lines
@@ -77,14 +77,14 @@ linesBtn.addEventListener('click', (e) => toggleLines(e));
 const rainbowbtn = document.querySelector('.rainbow');
 rainbowbtn.addEventListener('click', (e) => {
     // Trigger color changes of each cell to random.
-    hovered.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = '#' + getRandomColor()));
+    cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = '#' + getRandomColor()));
 });
 
 // Eraser mode
 const eraserBtn = document.querySelector('.eraser');
 eraserBtn.addEventListener('click', (e) => {
     // Trigger color changes of each cell to random.
-    hovered.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = 'rgb(255, 255, 255)'));
+    cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = 'rgb(255, 255, 255)'));
 });
 
 // Grid size indicator 
