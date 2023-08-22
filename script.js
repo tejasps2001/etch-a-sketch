@@ -31,7 +31,7 @@ function setUpCell(dimensions, row, cell) {
     if (gridLines) cell.classList.add('lines');
     cell.style.width = dimensions;
     cell.style.height = dimensions;
-    cell.style.backgroundColor = 'white';
+    cell.style.backgroundColor = 'rgb(255, 255, 255)';
     row.appendChild(cell);
 }
 
@@ -84,7 +84,7 @@ rainbowbtn.addEventListener('click', (e) => {
 const eraserBtn = document.querySelector('.eraser');
 eraserBtn.addEventListener('click', (e) => {
     // Trigger color changes of each cell to random.
-    hovered.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = 'white'));
+    hovered.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = 'rgb(255, 255, 255)'));
 });
 
 // Grid size indicator 
