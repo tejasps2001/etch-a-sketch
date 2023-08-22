@@ -1,7 +1,7 @@
 function resizeGrid(e) {
     deleteOldGrid();
     gridSize = e.target.value;
-    createGrid(gridSize);
+    createGrid();
 }
 
 function deleteOldGrid() {
@@ -61,7 +61,7 @@ let gridSize = 16;
 let customColor = '#000000';
 const sketchGrid = document.querySelector('.grid');
 
-createGrid(gridSize);
+createGrid();
 
 // Enable custom color functionality 
 const customBtn = document.querySelector('input[type="color"');
