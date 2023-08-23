@@ -10,6 +10,10 @@ function deleteOldGrid() {
     }
 }
 
+function defaul() {
+    this.style.backgroundColor = customColor;
+}
+
 function createGrid() {
     let gridCellDimensions = `calc(${1 / (gridSize)} * var(--sketching-grid-size))`;
     for (let i = 0; i < gridSize; i++) {
@@ -24,7 +28,7 @@ function createGrid() {
     cells = document.querySelectorAll('.cell');
 
     // customColor remembers the previous color setting
-    cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = customColor));
+    cells.forEach((cell) => cell.addEventListener('mouseenter', defaul));
 }
 
 function setUpCell(dimensions, row, cell) {
@@ -55,7 +59,7 @@ function getRandomColor() {
     return colorNumber.toString(16);
 }
 
-function darken(lightColor) {
+function calculate(lightColor) {
     temp = lightColor.split(',');
     let [r, g, b] = [temp[0].split('(')[1].trim(), temp[1].trim(), temp[2].split(')')[0].trim()];
     r -= 25;
@@ -65,6 +69,22 @@ function darken(lightColor) {
     if (g < 0) g = 0;
     if (b < 0) b = 0;
     return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+}
+
+function darken() {
+    this.style.backgroundColor = calculate(this.style.backgroundColor);
+}
+
+function customise() {
+    this.style.backgroundColor = customColor;
+}
+
+function randomise() {
+    this.style.backgroundColor = '#' + getRandomColor();
+}
+
+function erase() {
+    this.style.backgroundColor = 'rgb(255, 255, 255)';
 }
 
 const ALL_SUPPORTED_COLORS = 256 * 256 * 256; // 16,777,216 colors supported throught 24-bit colors 
@@ -83,7 +103,11 @@ customBtn.addEventListener('change', (e) => {
 
     // store incase of grid size change.
     customColor = e.target.value;
-    cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = e.target.value));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', defaul));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', darken));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', randomise));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', erase));
+    cells.forEach((cell) => cell.addEventListener('mouseenter', customise));
 });
 
 // Grid lines
@@ -94,27 +118,32 @@ linesBtn.addEventListener('click', (e) => toggleLines(e));
 const rainbowbtn = document.querySelector('.rainbow');
 rainbowbtn.addEventListener('click', (e) => {
     // Trigger color changes of each cell to random.
-    cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = '#' + getRandomColor()));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', defaul));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', customise));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', darken));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', erase));
+    cells.forEach((cell) => cell.addEventListener('mouseenter', randomise));
 });
 
 // Darken mode
 let darkenBtn = document.querySelector('.darken');
-darkenBtn.addEventListener('click', () => {
-    cells.forEach((cell) => {
-        cell.addEventListener('mouseenter', (e) => {
-
-            // Prevent custom color function from messing up the darkening by preventing events from propagating.
-            e.stopImmediatePropagation();
-            cell.style.backgroundColor = darken(cell.style.backgroundColor);
-        }, true);
-    });
+darkenBtn.addEventListener('click', (e) => {
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', defaul));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', customise));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', randomise));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', erase));
+    cells.forEach((cell) => cell.addEventListener('mouseenter', darken));
 });
 
 // Eraser mode
 const eraserBtn = document.querySelector('.eraser');
 eraserBtn.addEventListener('click', (e) => {
     // Trigger color changes of each cell to random.
-    cells.forEach((cell) => cell.addEventListener('mouseenter', () => cell.style.backgroundColor = 'rgb(255, 255, 255)'));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', defaul));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', customise));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', randomise));
+    cells.forEach((cell) => cell.removeEventListener('mouseenter', darken));
+    cells.forEach((cell) => cell.addEventListener('mouseenter', erase));
 });
 
 // Grid size indicator 
