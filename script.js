@@ -11,7 +11,7 @@ function deleteOldGrid() {
 }
 
 function defaul() {
-    this.style.backgroundColor = customColor;
+    this.style.backgroundColor = '#000000';
 }
 
 function createGrid() {
@@ -27,8 +27,8 @@ function createGrid() {
     }
     cells = document.querySelectorAll('.cell');
 
-    // customColor remembers the previous color setting
-    cells.forEach((cell) => cell.addEventListener('mouseenter', defaul));
+    // customMode remembers the previous mode setting
+    cells.forEach((cell) => cell.addEventListener('mouseenter', currentMode));
 }
 
 function setUpCell(dimensions, row, cell) {
@@ -90,18 +90,30 @@ function erase() {
 const ALL_SUPPORTED_COLORS = 256 * 256 * 256; // 16,777,216 colors supported throught 24-bit colors 
 
 let cells;
-let gridLines = false;
+let customColor;
 let gridSize = 16;
-let customColor = '#000000';
+let gridLines = false;
+
+// Store current mode details to remember the mode if grid size changes.
+let currentMode = defaul;
+
 const sketchGrid = document.querySelector('.grid');
 
+// Grid size indicator in output
+const gridDisplay = document.querySelector('.grid-display');
+
+// Initial output 
+gridDisplay.textContent = gridSize + "X" + gridSize;
+
+// Create initial grid.
 createGrid();
 
 // Enable custom color functionality 
 const customBtn = document.querySelector('input[type="color"');
 customBtn.addEventListener('change', (e) => {
+    currentMode = customise;
 
-    // store incase of grid size change.
+    // Use global variable to enable changing color in external function.
     customColor = e.target.value;
     cells.forEach((cell) => cell.removeEventListener('mouseenter', defaul));
     cells.forEach((cell) => cell.removeEventListener('mouseenter', darken));
@@ -117,6 +129,8 @@ linesBtn.addEventListener('click', (e) => toggleLines(e));
 // Rainbow mode 
 const rainbowbtn = document.querySelector('.rainbow');
 rainbowbtn.addEventListener('click', (e) => {
+    currentMode = randomise;
+
     // Trigger color changes of each cell to random.
     cells.forEach((cell) => cell.removeEventListener('mouseenter', defaul));
     cells.forEach((cell) => cell.removeEventListener('mouseenter', customise));
@@ -128,6 +142,7 @@ rainbowbtn.addEventListener('click', (e) => {
 // Darken mode
 let darkenBtn = document.querySelector('.darken');
 darkenBtn.addEventListener('click', (e) => {
+    currentMode = darken;
     cells.forEach((cell) => cell.removeEventListener('mouseenter', defaul));
     cells.forEach((cell) => cell.removeEventListener('mouseenter', customise));
     cells.forEach((cell) => cell.removeEventListener('mouseenter', randomise));
@@ -138,7 +153,6 @@ darkenBtn.addEventListener('click', (e) => {
 // Eraser mode
 const eraserBtn = document.querySelector('.eraser');
 eraserBtn.addEventListener('click', (e) => {
-    // Trigger color changes of each cell to random.
     cells.forEach((cell) => cell.removeEventListener('mouseenter', defaul));
     cells.forEach((cell) => cell.removeEventListener('mouseenter', customise));
     cells.forEach((cell) => cell.removeEventListener('mouseenter', randomise));
@@ -146,14 +160,9 @@ eraserBtn.addEventListener('click', (e) => {
     cells.forEach((cell) => cell.addEventListener('mouseenter', erase));
 });
 
-// Grid size indicator 
-const gridDisplay = document.querySelector('.grid-display');
-
-// Initial output 
-gridDisplay.textContent = gridSize + "X" + gridSize;
-
-// slider input for grid size.
+// Slider input for grid size.
 const gridSizeInput = document.querySelector('#grid-size');
 
+// Grid Size Change
 gridSizeInput.addEventListener('input', (e) => gridDisplay.textContent = e.target.value + "X" + e.target.value);
 gridSizeInput.addEventListener('mouseup', (e) => resizeGrid(e));
