@@ -108,6 +108,9 @@ gridDisplay.textContent = gridSize + "X" + gridSize;
 // Create initial grid.
 createGrid();
 
+// Remove every listeners which aren't needed so that they don't get triggered
+// AND they don't triggered when grid is resized.
+
 // Enable custom color functionality 
 const customBtn = document.querySelector('input[type="color"');
 customBtn.addEventListener('change', (e) => {
